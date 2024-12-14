@@ -91,12 +91,20 @@ Password-papa123
 
  Deployment Link [https://github.com/PapaBoakye1/Campus-event-management-system]
 
-Installation Instructions
-  To run this project locally, follow these steps: 
-1.	Clone the repository:
- ```bash 
+Installation Instructions:
+Clone the repository from GitHub:
+
 git clone https://github.com/PapaBoakye1/Campus-event-management-system.git
- cd WebTech Examm
+
+Navigate to the project directory:
+
+cd Campus-event-management-hub
+
+Open the project in Visual Studio Code (or any code editor).
+
+code .
+
+Open "index.html" using Live Server or your preferred browser.
 
 
 
