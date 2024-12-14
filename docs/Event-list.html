@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event List & RSVP</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet">
+
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+
+    <style>
+        /* Styling as before */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Event List & RSVP</h1>
+        <nav>
+            <ul>
+                <li><a href="create-event.html">Create Event</a></li>
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="calendar-container">
+            <h2>Event Calendar</h2>
+            <div id="calendar"></div>
+
+            <label for="event-filter">Filter by Event:</label>
+            <select id="event-filter" onchange="filterEvents()">
+                <option value="all">All Events</option>
+                <option value="workshop">Workshop</option>
+                <option value="seminar">Seminar</option>
+                <option value="conference">Conference</option>
+            </select>
+        </section>
+
+        <section id="event-list">
+            <h2>Available Events</h2>
+            <div id="event-container"></div>
+        </section>
+    </main>
+
+    <script>
+        // Load events from localStorage
+        function loadEvents() {
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            const eventContainer = document.getElementById('event-container');
+
+            const calendarEvents = events.map(event => {
+                const eventCard = document.createElement('div');
+                eventCard.classList.add('event-card');
+                eventCard.innerHTML = `
+                    <h3>${event.name}</h3>
+                    <p>Date: ${event.date}</p>
+                    <p>Location: ${event.location}</p>
+                    <p>Description: ${event.description}</p>
+                    <p>Remaining Seats: ${event.remainingSeats}</p>
+                    <button onclick="rsvpEvent('${event.id}')">RSVP</button>
+                `;
+                eventContainer.appendChild(eventCard);
+
+                return {
+                    title: event.name,
+                    start: event.date,
+                    description: event.description,
+                    location: event.location,
+                    remainingSeats: event.remainingSeats,
+                    type: event.type,
+                    id: event.id
+                };
+            });
+
+            // Initialize the calendar with events
+            $('#calendar').fullCalendar({
+                events: calendarEvents,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                eventClick: function(event) {
+                    alert('Event: ' + event.title);
+                }
+            });
+        }
+
+        // RSVP for an event
+        function rsvpEvent(eventId) {
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            const event = events.find(e => e.id === eventId);
+
+            if (event) {
+                if (event.remainingSeats > 0) {
+                    event.remainingSeats -= 1;
+                    localStorage.setItem('events', JSON.stringify(events)); // Update localStorage
+                    alert('RSVP successful!');
+                    location.reload(); // Refresh the event list
+                } else {
+                    alert('Sorry, no seats available for this event!');
+                }
+            } else {
+                alert('Event not found!');
+            }
+        }
+
+        // Filter events based on the selected category
+        function filterEvents() {
+            const filter = document.getElementById('event-filter').value;
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            const filteredEvents = filter === 'all' ? events : events.filter(event => event.type === filter);
+
+            // Clear current event list
+            document.getElementById('event-container').innerHTML = '';
+
+            // Display filtered events
+            filteredEvents.forEach(event => {
+                const eventCard = document.createElement('div');
+                eventCard.classList.add('event-card');
+                eventCard.innerHTML = `
+                    <h3>${event.name}</h3>
+                    <p>Date: ${event.date}</p>
+                    <p>Location: ${event.location}</p>
+                    <p>Description: ${event.description}</p>
+                    <p>Remaining Seats: ${event.remainingSeats}</p>
+                    <button onclick="rsvpEvent('${event.id}')">RSVP</button>
+                `;
+                document.getElementById('event-container').appendChild(eventCard);
+            });
+
+            // Update the calendar with filtered events
+            $('#calendar').fullCalendar('removeEvents');
+            $('#calendar').fullCalendar('addEventSource', filteredEvents);
+        }
+
+        // Load events when the page loads
+        window.onload = loadEvents;
+    </script>
+</body>
+</html>
