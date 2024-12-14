@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Background image styling */
+        body {
+            background-image: url('management.jpg'); /* Replace with your image path */
+            background-size: cover; /* Ensures the image covers the entire screen */
+            background-position: center center; /* Centers the image */
+            background-attachment: fixed; /* Fixes the background image during scroll */
+            color: white; /* Makes the text color white for better contrast with the background */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Additional styling for header, footer, and form */
+        header {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for header */
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        #user-login-form {
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background for the form */
+            padding: 30px;
+            border-radius: 8px;
+            width: 300px;
+            margin: 50px auto;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .back-home-button {
+            background-color: #007bff;
+            padding: 10px 20px;
+            text-align: center;
+            margin: 20px 0;
+            display: block;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .back-home-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>User Login</h1>
+        <!-- Back to Home Button -->
+        <a href="index.html" class="back-home-button">Back to Home</a>
+    </header>
+
+    <main>
+        <section id="user-login-form">
+            <form id="login-form">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Login</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // Example users database (Replace with your backend or database logic)
+        const users = [
+            { email: 'papa1@cloud.com', password: 'papa123', name: 'User 1' },
+            { email: 'martin1@cloud.com', password: 'martin456', name: 'User 2' }
+        ];
+
+        document.getElementById('login-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Validate user credentials
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                alert('Login successful!');
+                localStorage.setItem('loggedInUser', JSON.stringify(user)); // Save user to localStorage
+                window.location.href = 'event-list.html'; // Redirect to event list and RSVP page
+            } else {
+                alert('Invalid email or password!');
+            }
+        });
+    </script>
+</body>
+</html>

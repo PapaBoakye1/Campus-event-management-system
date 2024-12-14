@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Create New Event</h1>
+        <a href="index.html" class="home-button">Home</a> <!-- Home button -->
+    </header>
+
+    <main>
+        <form id="create-event-form">
+            <label for="event-name">Event Name:</label>
+            <input type="text" id="event-name" required>
+
+            <label for="event-date">Event Date:</label>
+            <input type="date" id="event-date" required>
+
+            <label for="event-location">Location:</label>
+            <input type="text" id="event-location" required>
+
+            <label for="event-description">Description:</label>
+            <textarea id="event-description" required></textarea>
+
+            <label for="event-type">Event Type:</label>
+            <select id="event-type" required>
+                <option value="workshop">Workshop</option>
+                <option value="seminar">Seminar</option>
+                <option value="conference">Conference</option>
+            </select>
+
+            <label for="remaining-seats">Remaining Seats:</label>
+            <input type="number" id="remaining-seats" required>
+
+            <button type="submit">Create Event</button>
+        </form>
+    </main>
+
+    <script>
+        // Handle form submission
+        document.getElementById('create-event-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Collect form data
+            const eventName = document.getElementById('event-name').value;
+            const eventDate = document.getElementById('event-date').value;
+            const eventLocation = document.getElementById('event-location').value;
+            const eventDescription = document.getElementById('event-description').value;
+            const eventType = document.getElementById('event-type').value;
+            const remainingSeats = document.getElementById('remaining-seats').value;
+
+            // Create a new event object
+            const newEvent = {
+                id: Date.now().toString(),
+                name: eventName,
+                date: eventDate,
+                location: eventLocation,
+                description: eventDescription,
+                type: eventType,
+                remainingSeats: parseInt(remainingSeats)
+            };
+
+            // Get existing events from localStorage or initialize an empty array
+            let events = JSON.parse(localStorage.getItem('events')) || [];
+
+            // Add the new event to the events array
+            events.push(newEvent);
+
+            // Save the updated events array back to localStorage
+            localStorage.setItem('events', JSON.stringify(events));
+
+            // Redirect to the event list page
+            window.location.href = 'event-list.html';
+        });
+    </script>
+</body>
+</html>
+
