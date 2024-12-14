@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Event Management Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* Background image styling */
+        body {
+            background-image: url('management.jpg'); /* Add the path to your image */
+            background-size: cover; /* Ensures the image covers the entire screen */
+            background-position: center center; /* Centers the image */
+            background-attachment: fixed; /* Fixes the background image during scroll */
+            color: white; /* Makes the text color white for better contrast with the background */
+        }
+
+        /* Additional styling to ensure content visibility */
+        header, footer {
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for header and footer */
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1, h2, p {
+            font-family: Arial, sans-serif;
+        }
+
+        .options button {
+            background-color: #4CAF50; /* Green button color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .options button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Campus Event Management Hub</h1>
+    </header>
+
+    <main>
+        <section id="home-options">
+            <h2>Welcome to the Campus Event Management Hub</h2>
+            <p>Please choose an option to continue:</p>
+            <div class="options">
+                <button onclick="navigateTo('login.html')">Login</button>
+                <button onclick="navigateTo('register.html')">Register</button>
+                <button onclick="navigateTo('admin-login.html')">Admin Login</button>
+                <!-- New View Events Button -->
+                <button onclick="navigateTo('Event-list.html')">View Event List</button>
+            </div>
+        </section>
+    </main>
+
+
+    <script>
+        // Function to navigate to the selected page
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>
